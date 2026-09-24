@@ -1,1 +1,1 @@
-# Tez
+# Tez yazmak zordur
