@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kampüs LMS – MVP</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f5f9;--sf:#fff;--ink:#14243b;--mut:#5d6b80;--line:#dde4ee;--brand:#1d4e89;--acc:#12a38a;--accbg:#dff5f0;--side:#14243b;--sideink:#c9d6e8;--danger:#c0392b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1623;--sf:#16233a;--ink:#e8eef8;--mut:#9aa8bd;--line:#26364f;--brand:#6ea8f0;--acc:#3fd0b4;--accbg:#12352f;--side:#0a111c;--danger:#ff7b6b}}
+:root[data-theme="dark"]{--bg:#0e1623;--sf:#16233a;--ink:#e8eef8;--mut:#9aa8bd;--line:#26364f;--brand:#6ea8f0;--acc:#3fd0b4;--accbg:#12352f;--side:#0a111c;--danger:#ff7b6b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.55 "Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{margin:0;line-height:1.25}h1{font-size:24px;font-weight:800}h2{font-size:18px;font-weight:700}h3{font-size:16px;font-weight:700}
+.mut{color:var(--mut)}p{margin:.3em 0}
+.shell{display:flex;min-height:100vh}
+.side{width:236px;background:var(--side);color:var(--sideink);padding:20px 14px;display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.logo{font-weight:800;font-size:18px;color:#fff;padding:4px 10px 16px}
+.logo span{color:var(--acc)}
+.nav{background:none;border:0;color:inherit;font:inherit;text-align:left;padding:10px 12px;border-radius:8px;cursor:pointer}
+.nav:hover{background:rgba(255,255,255,.07)}.nav.on{background:var(--acc);color:#04201a;font-weight:700}
+.who{margin-top:auto;padding:12px 10px 0;border-top:1px solid rgba(255,255,255,.12);font-size:13px}
+.who b{color:#fff;display:block}
+.main{flex:1;padding:28px;max-width:1040px;min-width:0}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card,.box{background:var(--sf);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card{display:flex;flex-direction:column;gap:8px}
+.stat{font-size:30px;font-weight:800;color:var(--brand)}
+.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.btn{background:var(--brand);color:#fff;border:1px solid var(--brand);border-radius:8px;padding:8px 14px;font:inherit;font-weight:700;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--brand)}.btn.out{background:transparent;color:var(--mut);border-color:var(--line)}
+.btn.del{background:transparent;color:var(--danger);border-color:var(--line)}
+.btn:focus-visible,.nav:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+label{display:block;font-weight:700;font-size:13px;margin:12px 0 4px}
+input,select,textarea{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:9px 11px;font:inherit}
+textarea{min-height:84px;resize:vertical}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--accbg);color:var(--acc)}
+.sec{margin-top:26px}.sec>h2{margin-bottom:10px}
+.lesson{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}.lesson:first-child{border-top:0}
+.lesson input[type=checkbox]{width:20px;height:20px;margin-top:3px;accent-color:var(--acc)}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--acc)}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:13px;color:var(--mut)}
+select{width:auto}
+.auth{max-width:400px;margin:8vh auto;padding:0 16px}
+.tabs{display:flex;gap:6px;margin:14px 0 4px}.tabs .btn{flex:1}
+.err{color:var(--danger);font-weight:700;margin-top:10px}
+.demo{margin-top:18px;font-size:13px}.demo button{margin:4px 6px 0 0}
+.empty{padding:22px;text-align:center;color:var(--mut);border:1px dashed var(--line);border-radius:12px}
+@media(max-width:760px){.shell{flex-direction:column}.side{width:100%;flex-direction:row;flex-wrap:wrap;padding:10px;align-items:center}.logo{padding:4px 8px}.who{margin:0 0 0 auto;border:0;padding:0}.main{padding:18px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const K='kampus_lms_mvp_v1';
+const R={admin:'Yönetici',teacher:'Öğretmen',student:'Öğrenci'};
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+let db=null,ui={v:'home',c:null,err:'',mode:'login'};
+function seed(){const t=uid(),s=uid();return{session:null,users:[
+{id:uid(),name:'Sistem Yöneticisi',email:'admin@kurum.local',pw:'admin123',role:'admin'},
+{id:t,name:'Ayşe Öğretmen',email:'ogretmen@kurum.local',pw:'123456',role:'teacher'},
+{id:s,name:'Mehmet Öğrenci',email:'ogrenci@kurum.local',pw:'123456',role:'student'}],
+courses:[{id:uid(),title:'Temel Python',desc:'Programlamaya giriş: değişkenler, döngüler, fonksiyonlar.',teacherId:t,students:[s],done:{},
+lessons:[{id:uid(),title:'Kurulum ve ilk program',content:'Python kurulumu ve "Merhaba Dünya" programı.'},{id:uid(),title:'Değişkenler ve veri tipleri',content:'int, str, list ve dict kavramları.'}]}]}}
+try{db=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!db)db=seed();
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(db))}catch(e){}};
+const me=()=>db.users.find(u=>u.id===db.session);
+const uname=id=>(db.users.find(u=>u.id===id)||{name:'Silinmiş kullanıcı'}).name;
+const crs=id=>db.courses.find(c=>c.id===id);
+
+function auth(){const L=ui.mode==='login';return`<div class="auth"><div class="box"><h1>Kampüs LMS</h1><p class="mut">Kurum içi öğrenme yönetim sistemi</p>
+<div class="tabs"><button class="btn ${L?'':'out'}" data-a="mode" data-id="login">Giriş yap</button><button class="btn ${L?'out':''}" data-a="mode" data-id="register">Kayıt ol</button></div>
+<form data-f="${ui.mode}">${L?'':'<label for="n">Ad soyad</label><input id="n" required>'}
+<label for="e">E-posta</label><input id="e" type="email" required><label for="p">Şifre</label><input id="p" type="password" required minlength="6">
+${ui.err?`<div class="err" role="alert">${esc(ui.err)}</div>`:''}<p style="margin-top:14px"><button class="btn" style="width:100%">${L?'Giriş yap':'Hesap oluştur'}</button></p></form>
+${L?`<div class="demo mut">Demo hesaplar:<br>${[['admin@kurum.local','admin123','Yönetici'],['ogretmen@kurum.local','123456','Öğretmen'],['ogrenci@kurum.local','123456','Öğrenci']].map(d=>`<button class="btn ghost" data-a="demo" data-e="${d[0]}" data-p="${d[1]}">${d[2]}</button>`).join('')}</div>`:'<p class="mut demo">Yeni hesaplar öğrenci olarak açılır. Öğretmen yetkisini yönetici verir.</p>'}
+</div></div>`}
+
+const nav=u=>[['home','Panel'],['catalog','Tüm dersler'],...(u.role==='student'?[['mine','Derslerim']]:u.role==='teacher'?[['mine','Verdiğim dersler']]:[]),...(u.role==='admin'?[['users','Kullanıcılar']]:[])];
+function shell(u){let b='';if(ui.v==='course')b=detail(u);else if(ui.v==='catalog')b=catalog(u);else if(ui.v==='mine')b=mine(u);else if(ui.v==='users'&&u.role==='admin')b=users(u);else b=home(u);
+return`<div class="shell"><aside class="side"><div class="logo">Kampüs<span>LMS</span></div>${nav(u).map(n=>`<button class="nav ${ui.v===n[0]?'on':''}" data-a="go" data-id="${n[0]}">${n[1]}</button>`).join('')}
+<div class="who"><b>${esc(u.name)}</b>${R[u.role]}<br><button class="nav" style="padding:6px 0" data-a="logout">Çıkış yap</button></div></aside><main class="main">${b}</main></div>`}
+
+const card=(c,u)=>{const en=c.students.includes(u.id);return`<article class="card"><h3>${esc(c.title)}</h3><p class="mut">${esc(c.desc)}</p>
+<div class="meta"><span>${esc(uname(c.teacherId))}</span><span>${c.students.length} öğrenci</span><span>${c.lessons.length} içerik</span></div>
+<div class="row"><button class="btn ghost" data-a="open" data-id="${c.id}">Dersi aç</button>
+${u.role==='student'?(en?`<button class="btn out" data-a="leave" data-id="${c.id}">Dersten ayrıl</button>`:`<button class="btn" data-a="join" data-id="${c.id}">Derse katıl</button>`):''}
+${u.role==='admin'?`<button class="btn del" data-a="delcourse" data-id="${c.id}">Sil</button>`:''}</div></article>`};
+const empty=t=>`<div class="empty">${t}</div>`;
+function home(u){const cs=db.courses,my=u.role==='student'?cs.filter(c=>c.students.includes(u.id)):u.role==='teacher'?cs.filter(c=>c.teacherId===u.id):cs;
+const st=u.role==='admin'?[[db.users.length,'Kullanıcı'],[db.users.filter(x=>x.role==='teacher').length,'Öğretmen'],[cs.length,'Ders'],[cs.reduce((a,c)=>a+c.students.length,0),'Kayıt']]
+:u.role==='teacher'?[[my.length,'Dersim'],[my.reduce((a,c)=>a+c.students.length,0),'Toplam öğrenci']]:[[my.length,'Katıldığım ders'],[cs.length-my.length,'Katılabileceğim ders']];
+return`<div class="head"><div><h1>Merhaba, ${esc(u.name.split(' ')[0])}</h1><p class="mut">${R[u.role]} paneli</p></div></div>
+<div class="grid">${st.map(s=>`<div class="box"><div class="stat">${s[0]}</div><div class="mut">${s[1]}</div></div>`).join('')}</div>
+<div class="sec"><h2>${u.role==='admin'?'Son dersler':'Derslerim'}</h2>${my.length?`<div class="grid">${my.slice(0,6).map(c=>card(c,u)).join('')}</div>`:empty(u.role==='student'?'Henüz bir derse katılmadın. "Tüm dersler" sayfasından başlayabilirsin.':'Henüz ders yok.')}</div>`}
+const catalog=u=>`<div class="head"><h1>Tüm dersler</h1></div>${db.courses.length?`<div class="grid">${db.courses.map(c=>card(c,u)).join('')}</div>`:empty('Henüz ders eklenmemiş.')}`;
+function mine(u){if(u.role==='student'){const m=db.courses.filter(c=>c.students.includes(u.id));return`<div class="head"><h1>Derslerim</h1></div>${m.length?`<div class="grid">${m.map(c=>card(c,u)).join('')}</div>`:empty('Katıldığın ders yok. "Tüm dersler" sayfasından bir derse katıl.')}`}
+const m=db.courses.filter(c=>c.teacherId===u.id);return`<div class="head"><h1>Verdiğim dersler</h1></div>
+<div class="box"><h2>Yeni ders oluştur</h2><form data-f="newcourse"><label for="ct">Ders adı</label><input id="ct" required><label for="cd">Açıklama</label><textarea id="cd"></textarea><p><button class="btn">Dersi oluştur</button></p></form></div>
+<div class="sec">${m.length?`<div class="grid">${m.map(c=>card(c,u)).join('')}</div>`:empty('Henüz ders oluşturmadın.')}</div>`}
+function detail(u){const c=crs(ui.c);if(!c)return catalog(u);const own=c.teacherId===u.id||u.role==='admin',en=c.students.includes(u.id),can=own||en,dn=(c.done[u.id]||[]),pc=c.lessons.length?Math.round(dn.length/c.lessons.length*100):0;
+return`<div class="head"><div><button class="btn out" data-a="go" data-id="catalog">← Derslere dön</button><h1 style="margin-top:12px">${esc(c.title)}</h1><p class="mut">${esc(c.desc)}</p><div class="meta"><span>Öğretmen: ${esc(uname(c.teacherId))}</span><span>${c.students.length} öğrenci</span></div></div>
+${u.role==='student'?(en?`<button class="btn out" data-a="leave" data-id="${c.id}">Dersten ayrıl</button>`:`<button class="btn" data-a="join" data-id="${c.id}">Derse katıl</button>`):''}</div>
+${u.role==='student'&&en?`<div class="box"><b>İlerleme: %${pc}</b><div class="bar"><i style="width:${pc}%"></i></div></div>`:''}
+<div class="sec"><h2>Ders içeriği</h2><div class="box">${!can?'<p class="mut">İçeriği görmek için derse katıl.</p>':c.lessons.length?c.lessons.map(l=>`<div class="lesson">${en&&!own?`<input type="checkbox" aria-label="Tamamlandı" data-a="done" data-id="${c.id}" data-l="${l.id}" ${dn.includes(l.id)?'checked':''}>`:''}<div style="flex:1"><b>${esc(l.title)}</b><p class="mut">${esc(l.content)}</p></div>${own?`<button class="btn del" data-a="dellesson" data-id="${c.id}" data-l="${l.id}">Sil</button>`:''}</div>`).join(''):'<p class="mut">Henüz içerik eklenmemiş.</p>'}</div></div>
+${own?`<div class="sec"><h2>İçerik ekle</h2><div class="box"><form data-f="newlesson" data-id="${c.id}"><label for="lt">Başlık</label><input id="lt" required><label for="lc">İçerik / bağlantı</label><textarea id="lc"></textarea><p><button class="btn">İçeriği ekle</button></p></form></div></div>
+<div class="sec"><h2>Katılan öğrenciler</h2><div class="box">${c.students.length?c.students.map(s=>`<div class="lesson"><div style="flex:1">${esc(uname(s))}</div><span class="tag">%${c.lessons.length?Math.round((c.done[s]||[]).length/c.lessons.length*100):0}</span></div>`).join(''):'<p class="mut">Henüz katılan öğrenci yok.</p>'}</div></div>`:''}`}
+function users(u){return`<div class="head"><div><h1>Kullanıcılar</h1><p class="mut">Rol değiştirerek öğretmen yetkisi verebilir veya alabilirsin.</p></div></div><div class="box tw"><table><thead><tr><th>Ad soyad</th><th>E-posta</th><th>Rol</th></tr></thead><tbody>${db.users.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.email)}</td><td>${x.id===u.id?`<span class="tag">${R[x.role]} (sen)</span>`:`<select aria-label="Rol" data-a="role" data-id="${x.id}">${Object.keys(R).map(r=>`<option value="${r}" ${x.role===r?'selected':''}>${R[r]}</option>`).join('')}</select>`}</td></tr>`).join('')}</tbody></table></div>`}
+
+function render(){$('#app').innerHTML=me()?shell(me()):auth()}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t||t.tagName==='SELECT'||t.type==='checkbox')return;act(t)});
+document.addEventListener('change',e=>{const t=e.target.closest('[data-a]');if(t&&(t.tagName==='SELECT'||t.type==='checkbox'))act(t)});
+function act(t){const a=t.dataset.a,id=t.dataset.id,u=me(),c=id&&crs(id);
+if(a==='mode'){ui.mode=id;ui.err=''}
+else if(a==='demo'){db.session=db.users.find(x=>x.email===t.dataset.e&&x.pw===t.dataset.p)?.id;ui.v='home'}
+else if(a==='go'){ui.v=id}
+else if(a==='logout'){db.session=null;ui.v='home'}
+else if(a==='open'){ui.v='course';ui.c=id}
+else if(a==='join'&&c&&!c.students.includes(u.id)){c.students.push(u.id)}
+else if(a==='leave'&&c){c.students=c.students.filter(s=>s!==u.id)}
+else if(a==='delcourse'&&u.role==='admin'&&confirm('Bu ders silinsin mi?')){db.courses=db.courses.filter(x=>x.id!==id)}
+else if(a==='dellesson'&&c&&(c.teacherId===u.id||u.role==='admin')){c.lessons=c.lessons.filter(l=>l.id!==t.dataset.l)}
+else if(a==='done'&&c){const d=c.done[u.id]||(c.done[u.id]=[]),l=t.dataset.l,i=d.indexOf(l);i<0?d.push(l):d.splice(i,1)}
+else if(a==='role'&&u.role==='admin'&&id!==u.id){db.users.find(x=>x.id===id).role=t.value}
+save();render()}
+document.addEventListener('submit',e=>{e.preventDefault();const f=e.target.dataset.f,u=me(),v=i=>(document.getElementById(i)?.value||'').trim();
+if(f==='login'){const m=db.users.find(x=>x.email===v('e').toLowerCase()&&x.pw===document.getElementById('p').value);if(m){db.session=m.id;ui.v='home';ui.err=''}else ui.err='E-posta veya şifre hatalı.'}
+else if(f==='register'){const em=v('e').toLowerCase();if(db.users.some(x=>x.email===em))ui.err='Bu e-posta ile kayıtlı bir hesap var.';else{const n={id:uid(),name:v('n'),email:em,pw:document.getElementById('p').value,role:'student'};db.users.push(n);db.session=n.id;ui.v='home';ui.err=''}}
+else if(f==='newcourse'&&u.role==='teacher'){db.courses.push({id:uid(),title:v('ct'),desc:v('cd'),teacherId:u.id,students:[],done:{},lessons:[]})}
+else if(f==='newlesson'){const c=crs(e.target.dataset.id);if(c&&(c.teacherId===u.id||u.role==='admin'))c.lessons.push({id:uid(),title:v('lt'),content:v('lc')})}
+save();render()});
+render();
+</script>
+</body>
+</html>
