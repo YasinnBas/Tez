@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SYS LMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1f4f7;--sf:#fff;--ink:#12303f;--mut:#586b78;--line:#d9e1e8;--brand:#17405c;--or:#f98012;--orbg:#fff0e0;--ort:#a04d00;--ok:#13795b;--okbg:#dff5ec;--side:#12303f;--sideink:#bcd0dc;--danger:#c0392b;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c151c;--sf:#14232e;--ink:#e6eef4;--mut:#93a7b5;--line:#25384a;--brand:#7cc0ea;--orbg:#3a2410;--ort:#ffb066;--ok:#5fd6ad;--okbg:#103328;--side:#09111a;--danger:#ff7b6b}}
+:root[data-theme="dark"]{--bg:#0c151c;--sf:#14232e;--ink:#e6eef4;--mut:#93a7b5;--line:#25384a;--brand:#7cc0ea;--orbg:#3a2410;--ort:#ffb066;--ok:#5fd6ad;--okbg:#103328;--side:#09111a;--danger:#ff7b6b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.55 "Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{margin:0;line-height:1.25}h1{font-size:26px;font-weight:800}h2{font-size:18px;font-weight:700}h3{font-size:15px;font-weight:700}p{margin:.3em 0}.mut{color:var(--mut)}a{color:var(--brand);font-weight:600}
+.app{display:flex;min-height:100vh}
+.side{width:248px;background:var(--side);color:var(--sideink);padding:16px 12px;display:flex;flex-direction:column;gap:2px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;transition:width .2s}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:#fff;padding:2px 8px 14px}.logo i{font-style:normal;background:var(--or);color:#2b1400;border-radius:9px;width:32px;height:32px;display:grid;place-items:center;font-size:14px;flex-shrink:0}
+.grp{font-size:12px;font-weight:700;color:#7f98a8;padding:14px 10px 4px}
+.nav{display:flex;align-items:center;gap:11px;width:100%;background:none;border:0;border-left:3px solid transparent;color:inherit;font:inherit;text-align:left;padding:9px 10px;border-radius:0 9px 9px 0;cursor:pointer}
+.nav b{width:22px;text-align:center;font-size:16px;flex-shrink:0}.nav span{flex:1}.nav em{font-style:normal;background:var(--or);color:#2b1400;font-size:12px;font-weight:800;border-radius:99px;padding:0 7px}
+.nav:hover{background:rgba(255,255,255,.07)}.nav.on{background:rgba(249,128,18,.16);border-left-color:var(--or);color:#fff;font-weight:700}
+.who{margin-top:auto;padding:12px 8px 0;border-top:1px solid rgba(255,255,255,.12);font-size:13px;display:flex;gap:10px;align-items:center}.who b{color:#fff;display:block;line-height:1.2}
+.av{width:34px;height:34px;border-radius:50%;background:var(--or);color:#2b1400;font-weight:800;display:grid;place-items:center;flex-shrink:0;font-size:13px}
+.app.min .side{width:68px}.app.min .side span,.app.min .grp,.app.min .who div,.app.min .logo span{display:none}.app.min .nav em{position:absolute;margin:-18px 0 0 16px;font-size:10px}
+.wrap{flex:1;min-width:0}
+.top{position:sticky;top:0;z-index:5;background:var(--sf);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:10px 20px}
+.top form{flex:1;max-width:520px}.top input{border-radius:99px}
+.ib{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:9px;width:38px;height:38px;cursor:pointer;font-size:16px}
+.main{padding:24px 28px 48px;max-width:1180px}
+.hero{background:var(--brand);color:#fff;border-radius:16px;padding:26px 28px;position:relative;overflow:hidden;margin-bottom:22px}
+.hero:after{content:"";position:absolute;right:-60px;top:-70px;width:260px;height:260px;border-radius:50%;background:var(--or);opacity:.9}
+.hero>*{position:relative;z-index:1}.hero p{color:#d3e4ee;max-width:520px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.box{background:var(--sf);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card{background:var(--sf);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.th{height:112px;position:relative;display:flex;align-items:flex-end;padding:10px 12px;color:#fff;font-weight:800;font-size:26px}
+.th .bd{position:absolute;top:10px;left:10px;font-size:12px;background:#fff;color:#2b1400;border-radius:6px;padding:1px 8px}
+.cb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.meta{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--mut)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.stat{font-size:30px;font-weight:800;color:var(--brand);line-height:1.1}
+.btn{background:var(--brand);color:#fff;border:1px solid var(--brand);border-radius:9px;padding:8px 14px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+:root[data-theme="dark"] .btn:not(.ghost):not(.out):not(.del){color:#06202f}
+.btn.or{background:var(--or);border-color:var(--or);color:#2b1400}.btn.ghost{background:transparent;color:var(--brand)}.btn.out{background:transparent;color:var(--mut);border-color:var(--line)}.btn.del{background:transparent;color:var(--danger);border-color:var(--line)}.btn.sm{padding:4px 10px;font-size:13px}
+.btn:focus-visible,.nav:focus-visible,.ib:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--or);outline-offset:2px}
+label{display:block;font-weight:700;font-size:13px;margin:12px 0 4px}
+input,select,textarea{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:9px 11px;font:inherit}textarea{min-height:76px;resize:vertical}select{width:auto}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--orbg);color:var(--ort)}.tag.ok{background:var(--okbg);color:var(--ok)}.tag.late{background:#fde4e0;color:var(--danger)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}.chip{border:1px solid var(--line);background:var(--sf);color:var(--ink);border-radius:99px;padding:6px 14px;font:inherit;font-weight:600;cursor:pointer}.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ok);transition:width .3s}
+.sec{margin-top:26px}.sec>h2{margin-bottom:10px}
+.wk{border:1px solid var(--line);border-radius:12px;background:var(--sf);margin-bottom:12px;overflow:hidden}.wk>header{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--line)}.wk>header h3{flex:1}
+.it{display:flex;gap:12px;align-items:center;padding:11px 16px;border-top:1px solid var(--line)}.it:first-of-type{border-top:0}.it .ic{width:34px;height:34px;border-radius:9px;background:var(--orbg);color:var(--ort);display:grid;place-items:center;font-weight:800;flex-shrink:0}.it>div{flex:1;min-width:0}
+.view{margin-bottom:18px}.view video,.view img,.view iframe{width:100%;max-height:520px;border-radius:10px;background:#000;border:0}.view img{object-fit:contain}.view iframe{height:520px}
+.doc{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--bg);white-space:pre-wrap}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:13px;color:var(--mut)}
+.auth{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}.aL{background:var(--brand);color:#fff;padding:48px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}.aL:after{content:"";position:absolute;left:-90px;bottom:-110px;width:320px;height:320px;border-radius:50%;background:var(--or)}.aL>*{position:relative;z-index:1}.aL p{color:#d3e4ee}
+.aR{display:flex;align-items:center;justify-content:center;padding:24px}.aR .box{width:100%;max-width:400px}
+.tabs{display:flex;gap:6px;margin:14px 0 4px}.tabs .btn{flex:1}.err{color:var(--danger);font-weight:700;margin-top:10px}.demo{margin-top:16px;font-size:13px}.demo button{margin:4px 6px 0 0}
+.empty{padding:22px;text-align:center;color:var(--mut);border:1px dashed var(--line);border-radius:12px}
+.pg{display:flex;gap:8px;align-items:center;margin-top:12px}.scrim{display:none}
+@media(max-width:860px){.auth{grid-template-columns:1fr}.aL{padding:28px}.side{position:fixed;z-index:20;left:-270px;width:250px!important;transition:left .2s}.app.mob .side{left:0}.app.mob .scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:15}.app.min .side span,.app.min .grp,.app.min .who div,.app.min .logo span{display:revert}.main{padding:18px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ===== Çekirdek: veri, yardımcılar ===== */
+const K='sys_lms_v1',R={admin:'Yönetici',teacher:'Öğretmen',student:'Öğrenci'},CATS=['Bilgisayar','Mühendislik','Fen','Sosyal','İşletme','Dil'];
+const TY={video:['▶','Video'],slide:['▤','Slayt (görseller)'],image:['▣','Görsel'],doc:['W','Word belgesi'],pdf:['P','PDF'],link:['↗','Bağlantı'],text:['≡','Metin']};
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const lk=s=>esc(s).replace(/https?:\/\/[^\s<]+/g,u=>`<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>`);
+const uid=()=>Math.random().toString(36).slice(2,9),day=n=>new Date(Date.now()+n*864e5).toISOString().slice(0,10),today=()=>day(0);
+const fd=s=>new Date(s).toLocaleDateString('tr-TR',{day:'numeric',month:'long'});
+let db=null,ui={v:'home',c:null,item:null,sl:0,q:'',cat:'',pg:1,uq:'',tab:'open',err:'',mode:'login',side:true,mob:false};
+function seed(){
+ const FN='Ahmet Ayşe Mehmet Fatma Mustafa Zeynep Ali Elif Emre Merve Burak Selin Can Defne Kerem Ece Efe Buse Arda Naz Yusuf İrem Kaan Sude Eren Aslı Onur Gizem Berk Deniz Cem Pınar Tolga Hande Barış Ceren Umut Dilara Serkan Esra'.split(' '),
+ LN='Yılmaz Kaya Demir Şahin Çelik Yıldız Aydın Özdemir Arslan Doğan Kılıç Aslan Çetin Kara Koç Kurt Özkan Şimşek Polat Korkmaz Erdoğan Güneş Aksoy Tekin Avcı Bulut Acar Türk Öztürk Taş'.split(' '),
+ nm=i=>FN[i%40]+' '+LN[(i*7+(i/40|0))%30];
+ const users=[{id:'a0',n:'Sistem Yöneticisi',e:'admin@sys.edu.tr',p:'admin123',r:'admin'},{id:'t0',n:'Ayşe Öğretmen',e:'ogretmen@sys.edu.tr',p:'123456',r:'teacher'},{id:'sd',n:'Mehmet Öğrenci',e:'ogrenci@sys.edu.tr',p:'123456',r:'student'}];
+ for(let i=1;i<8;i++)users.push({id:'t'+i,n:'Dr. '+nm(i*53),e:'hoca'+i+'@sys.edu.tr',r:'teacher'});
+ for(let i=0;i<5200;i++)users.push({id:'s'+i,n:nm(i),e:'ogr'+i+'@sys.edu.tr',r:'student'});
+ const C=[['Python ile Programlamaya Giriş',0],['Veri Yapıları ve Algoritmalar',0],['Veritabanı Yönetim Sistemleri',0],['Yapay Zekâya Giriş',0],['Mühendislik Matematiği',1],['Devre Analizi',1],['Statik ve Dinamik',1],['Genel Fizik I',2],['Genel Kimya',2],['Biyolojiye Giriş',2],['Sosyoloji',3],['Psikolojiye Giriş',3],['Türkiye Ekonomisi',3],['İşletme Yönetimi',4],['Muhasebe İlkeleri',4],['Proje Yönetimi',4],['Akademik İngilizce',5],['Akademik Yazma',5]];
+ const courses=C.map((x,i)=>{const st=i<3?['sd']:[];for(let j=0;j<5200;j++)if((j*13+i*7)%9<2)st.push('s'+j);
+  return{id:'c'+i,n:i,t:x[0],cat:CATS[x[1]],d:'Haftalık planla ilerleyen, kaynak ve görevlerle desteklenen '+x[0].toLowerCase()+' dersi.',tid:'t'+(i%8),st,done:{},sub:{},
+  weeks:[{id:'w'+i+'a',t:'Tanışma ve genel bakış',date:day(-14),items:[{id:'i'+i+'a',k:'text',t:'Ders tanıtımı',u:'Bu derste izlenecek yol, değerlendirme ve kaynaklar anlatılır. Ek kaynak: https://ocw.mit.edu/',f:[]},{id:'i'+i+'b',k:'link',t:'Kaynak: Khan Academy',u:'https://tr.khanacademy.org/',f:[]}]},
+  {id:'w'+i+'b',t:'Temel kavramlar',date:day(-7),items:[{id:'i'+i+'c',k:'link',t:'Okuma: Vikipedi',u:'https://tr.wikipedia.org/',f:[]},{id:'i'+i+'d',k:'text',t:'Hafta özeti',u:'Temel kavramların kısa özeti. Sonraki hafta uygulamalara geçilecek.',f:[]}]},
+  {id:'w'+i+'c',t:'Uygulama haftası',date:day(7),items:[{id:'i'+i+'e',k:'text',t:'Uygulama yönergesi',u:'Uygulama yönergeleri hafta açılınca burada olacak.',f:[]}]}],
+  tasks:[{id:'k'+i+'a',t:'Okuma özeti',due:day(5)},{id:'k'+i+'b',t:'Uygulama ödevi',due:day(12)}]}});
+ return{session:null,users,courses}}
+try{db=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!db)db=seed();
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(db))}catch(e){}};
+const me=()=>db.users.find(u=>u.id===db.session),uname=id=>(db.users.find(u=>u.id===id)||{n:'Silinmiş kullanıcı'}).n,crs=id=>db.courses.find(c=>c.id===id);
+const own=(c,u)=>c.tid===u.id||u.role==='admin',items=c=>c.weeks.flatMap(w=>w.items),enr=(c,u)=>c.st.includes(u.id);
+const pct=(id,c)=>{const t=items(c).length;if(!t)return 0;if(c.done[id])return Math.round(c.done[id].length/t*100);return/^s\d/.test(id)?(+id.slice(1)*37+c.n*11)%101:0};
+const ini=n=>n.split(' ').map(x=>x[0]).slice(0,2).join('');
+/* Dosya deposu (IndexedDB) */
+const idb=()=>new Promise((r,j)=>{const q=indexedDB.open('sys_lms_files',1);q.onupgradeneeded=()=>q.result.createObjectStore('f');q.onsuccess=()=>r(q.result);q.onerror=()=>j(q.error)});
+const fput=async(k,b)=>{const d=await idb();return new Promise((r,j)=>{const t=d.transaction('f','readwrite');t.objectStore('f').put(b,k);t.oncomplete=r;t.onerror=j})};
+const fget=async k=>{try{const d=await idb();return await new Promise(r=>{const q=d.transaction('f').objectStore('f').get(k);q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)})}catch(e){return null}};
+const lm=()=>window.mammoth?Promise.resolve():new Promise((r,j)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';s.onload=r;s.onerror=j;document.head.append(s)});
+
+/* ===== Modül: Oturum (giriş / kayıt) ===== */
+const Auth={view(){const L=ui.mode==='login';return`<div class="auth"><section class="aL"><div class="logo" style="padding:0 0 20px"><i>S</i>SYS LMS</div><h1>Üniversite içi öğrenme platformu</h1><p>Haftalık ders planları, çok türlü içerik ve görevler tek yerde. Platform tamamen kurum içidir; satış veya ödeme yoktur.</p></section>
+<section class="aR"><div class="box"><h2>${L?'Hesabına giriş yap':'Hesap oluştur'}</h2><div class="tabs"><button class="btn ${L?'':'out'}" data-a="mode" data-id="login">Giriş yap</button><button class="btn ${L?'out':''}" data-a="mode" data-id="register">Kayıt ol</button></div>
+<form data-f="${ui.mode}">${L?'':'<label for="n">Ad soyad</label><input id="n" required>'}<label for="e">E-posta</label><input id="e" type="email" required><label for="p">Şifre</label><input id="p" type="password" required minlength="6">${ui.err?`<div class="err" role="alert">${esc(ui.err)}</div>`:''}<p style="margin-top:14px"><button class="btn or" style="width:100%">${L?'Giriş yap':'Hesap oluştur'}</button></p></form>
+${L?`<div class="demo mut">Demo hesaplar:<br>${[['admin@sys.edu.tr','admin123','Yönetici'],['ogretmen@sys.edu.tr','123456','Öğretmen'],['ogrenci@sys.edu.tr','123456','Öğrenci']].map(d=>`<button class="btn ghost sm" data-a="demo" data-e="${d[0]}" data-p="${d[1]}">${d[2]}</button>`).join('')}</div>`:'<p class="mut demo">Yeni hesaplar öğrenci olarak açılır. Öğretmen yetkisini yönetici verir.</p>'}</div></section></div>`},
+ login(v,pw){const m=db.users.find(x=>x.e===v('e').toLowerCase()&&(x.p||'123456')===pw);if(m){db.session=m.id;ui.v='home';ui.err=''}else ui.err='E-posta veya şifre hatalı.'},
+ register(v,pw){const em=v('e').toLowerCase();if(db.users.some(x=>x.e===em))ui.err='Bu e-posta ile kayıtlı bir hesap var.';else{const n={id:uid(),n:v('n'),e:em,p:pw,r:'student'};db.users.push(n);db.session=n.id;ui.v='home';ui.err=''}}};
+
+/* ===== Modül: Dersler (katalog, kart, ders sayfası, haftalar, içerik) ===== */
+const hue=c=>CATS.indexOf(c.cat)*58+205;
+const Courses={
+ card(c,u){const e=enr(c,u),p=u.role==='student'&&e?pct(u.id,c):null;return`<article class="card"><div class="th" style="background:linear-gradient(135deg,hsl(${hue(c)} 55% 32%),hsl(${hue(c)+40} 60% 48%))">${c.st.length>1000?'<span class="bd">Popüler</span>':''}${esc(ini(c.t))}</div><div class="cb"><h3>${esc(c.t)}</h3><div class="meta"><span>${esc(uname(c.tid))}</span></div><div class="meta"><span>${esc(c.cat)}</span><span>${c.st.length} öğrenci</span><span>${c.weeks.length} hafta</span></div>
+${p!==null?`<div class="bar" role="progressbar" aria-valuenow="${p}" aria-valuemin="0" aria-valuemax="100"><i style="width:${p}%"></i></div><span class="mut" style="font-size:13px">%${p} tamamlandı</span>`:''}
+<div class="row"><button class="btn ghost sm" data-a="open" data-id="${c.id}">Dersi aç</button>${u.role==='student'?(e?`<button class="btn out sm" data-a="leave" data-id="${c.id}">Ayrıl</button>`:`<button class="btn or sm" data-a="join" data-id="${c.id}">Derse katıl</button>`):''}</div></div></article>`},
+ catalog(u){const q=ui.q.toLowerCase(),l=db.courses.filter(c=>(!ui.cat||c.cat===ui.cat)&&(!q||(c.t+c.cat+uname(c.tid)).toLowerCase().includes(q)));
+  return`<div class="hero"><h1>Ders kataloğu</h1><p>${db.courses.length} ders. Kategoriye göre süz ya da ara.</p></div><div class="chips"><button class="chip ${ui.cat?'':'on'}" data-a="cat" data-id="">Tümü</button>${CATS.map(x=>`<button class="chip ${ui.cat===x?'on':''}" data-a="cat" data-id="${x}">${x}</button>`).join('')}</div>${ui.q?`<p class="mut">“${esc(ui.q)}” için ${l.length} sonuç</p>`:''}${l.length?`<div class="grid">${l.map(c=>Courses.card(c,u)).join('')}</div>`:'<div class="empty">Bu süzgece uyan ders yok.</div>'}`},
+ mine(u){const m=db.courses.filter(c=>u.role==='student'?enr(c,u):c.tid===u.id);
+  return`<div class="head"><h1>${u.role==='student'?'Derslerim':'Verdiğim dersler'}</h1></div>${u.role!=='student'?Teacher.form(u):''}<div class="sec">${m.length?`<div class="grid">${m.map(c=>Courses.card(c,u)).join('')}</div>`:'<div class="empty">'+(u.role==='student'?'Henüz bir derse katılmadın. Ders kataloğundan başlayabilirsin.':'Henüz ders oluşturmadın.')+'</div>'}</div>`},
+ item(c,u,it,ed){const p=ui.item===it.id;return`<div class="it"><span class="ic">${TY[it.k][0]}</span><div><b>${esc(it.t)}</b><div class="mut" style="font-size:13px">${TY[it.k][1]}</div></div><span data-st="${it.id}">${Courses.st(c,u,it)}</span><button class="btn ${p?'out':'ghost'} sm" data-a="item" data-id="${c.id}" data-i="${it.id}">${p?'Kapat':'Aç'}</button>${ed?`<button class="btn del sm" data-a="delitem" data-id="${c.id}" data-i="${it.id}">Sil</button>`:''}</div>`},
+ st(c,u,it){return u.role==='student'&&enr(c,u)?((c.done[u.id]||[]).includes(it.id)?'<span class="tag ok">Tamamlandı</span>':'<span class="tag">Bekliyor</span>'):''},
+ viewer(c,u,it){let b='';const k=it.k;
+  if(k==='video')b='<video id="vid" controls controlsList="nodownload"></video><p class="mut">Video sonuna geldiğinde ilerlemen otomatik kaydedilir.</p>';
+  else if(k==='slide')b=`<img data-fk="${it.f[ui.sl]}" alt="Slayt ${ui.sl+1}"><div class="row" style="align-items:center"><button class="btn out sm" data-a="sl" data-d="-1" ${ui.sl?'':'disabled'}>Önceki</button><span class="mut">${ui.sl+1} / ${it.f.length}</span><button class="btn sm" data-a="sl" data-d="1" ${ui.sl<it.f.length-1?'':'disabled'}>Sonraki</button></div><p class="mut">Son slayta ulaşınca ilerlemen otomatik kaydedilir.</p>`;
+  else if(k==='image')b=`<img data-fk="${it.f[0]}" alt="${esc(it.t)}">`;
+  else if(k==='pdf')b='<iframe id="pdf" title="PDF"></iframe><p><a id="pdfo" target="_blank" rel="noopener" data-a="lnk" data-id="'+c.id+'" data-i="'+it.id+'">PDF’yi yeni sekmede aç</a> <span class="mut">(PDF’de ilerleme, açıldığında kaydedilir.)</span></p>';
+  else if(k==='doc'||k==='text')b=`<div class="doc" id="doc" tabindex="0">${k==='text'?lk(it.u):'Belge yükleniyor…'}</div><p class="mut">Sayfanın sonuna ulaştığında ilerlemen otomatik kaydedilir.</p>`;
+  else b=`<p><a class="btn or" href="${esc(it.u)}" target="_blank" rel="noopener noreferrer" data-a="lnk" data-id="${c.id}" data-i="${it.id}">Siteye git</a></p><p class="mut">${esc(it.u)}</p>`;
+  return`<div class="box view"><h3 style="margin-bottom:10px">${esc(it.t)}</h3>${b}</div>`},
+ detail(u){const c=crs(ui.c);if(!c)return Courses.catalog(u);const o=own(c,u),e=enr(c,u),p=pct(u.id,c),it=ui.item&&items(c).find(x=>x.id===ui.item),can=o||e,td=today();
+  return`<div class="hero"><button class="btn out sm" style="color:#fff;border-color:#ffffff66" data-a="go" data-id="catalog">← Kataloğa dön</button><h1 style="margin-top:12px">${esc(c.t)}</h1><p>${esc(c.d)}</p><div class="meta" style="color:#d3e4ee"><span>${esc(uname(c.tid))}</span><span>${esc(c.cat)}</span><span>${c.st.length} öğrenci</span></div>
+  ${u.role==='student'?`<div style="margin-top:12px">${e?`<button class="btn out sm" style="color:#fff;border-color:#ffffff66" data-a="leave" data-id="${c.id}">Dersten ayrıl</button>`:`<button class="btn or" data-a="join" data-id="${c.id}">Derse katıl</button>`}</div>`:''}</div>
+  ${u.role==='student'&&e?`<div class="box"><b>İlerleme: <span class="pt">%${p}</span></b><div class="bar" style="margin-top:8px" role="progressbar" aria-label="Ders ilerlemesi (otomatik)"><i class="pf" style="width:${p}%"></i></div><p class="mut" style="font-size:13px">İlerleme çubuğu içerikleri tamamladıkça kendiliğinden dolar; elle değiştirilemez.</p></div>`:''}
+  ${it&&can?Courses.viewer(c,u,it):''}
+  <div class="sec"><h2>Haftalık plan</h2>${!can?'<div class="empty">İçeriği görmek için derse katıl.</div>':c.weeks.length?c.weeks.map((w,i)=>{const lock=!o&&w.date>td;return`<section class="wk"><header><h3>Hafta ${i+1}: ${esc(w.t)}</h3><span class="tag ${lock?'':'ok'}">${lock?'Açılış: '+fd(w.date):fd(w.date)}</span>${o?`<button class="btn del sm" data-a="delweek" data-id="${c.id}" data-w="${w.id}">Haftayı sil</button>`:''}</header>${lock?'<div class="it mut">Bu hafta henüz açılmadı.</div>':w.items.length?w.items.map(x=>Courses.item(c,u,x,o)).join(''):'<div class="it mut">Bu haftaya henüz içerik eklenmedi.</div>'}</section>`}).join(''):'<div class="empty">Henüz hafta planlanmamış.</div>'}</div>
+  ${can?Tasks.list(c,u,o):''}
+  ${o?Courses.manage(c):''}`},
+ manage(c){return`<div class="sec"><h2>Dersi planla</h2><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+  <div class="box"><h3>Yeni hafta</h3><form data-f="newweek" data-id="${c.id}"><label for="wt">Hafta başlığı</label><input id="wt" required><label for="wd">Açılış tarihi</label><input id="wd" type="date" value="${today()}" required><p><button class="btn">Haftayı ekle</button></p></form></div>
+  <div class="box"><h3>İçerik yükle</h3>${c.weeks.length?`<form data-f="newitem" data-id="${c.id}"><label for="iw">Hafta</label><select id="iw">${c.weeks.map((w,i)=>`<option value="${w.id}">Hafta ${i+1}: ${esc(w.t)}</option>`).join('')}</select><label for="ik">Tür</label><select id="ik">${Object.keys(TY).map(k=>`<option value="${k}">${TY[k][1]}</option>`).join('')}</select><label for="it">Başlık</label><input id="it" required><label for="if">Dosya (video, görsel/slayt görselleri, .docx, PDF)</label><input id="if" type="file" multiple><label for="iu">Bağlantı adresi veya metin</label><textarea id="iu"></textarea><div class="err" id="ie" role="alert"></div><p><button class="btn or">İçeriği ekle</button></p></form>`:'<p class="mut">Önce bir hafta ekle.</p>'}</div>
+  <div class="box"><h3>Yeni görev</h3><form data-f="newtask" data-id="${c.id}"><label for="tt">Görev</label><input id="tt" required><label for="td">Son tarih</label><input id="td" type="date" value="${day(7)}" required><p><button class="btn">Görevi ekle</button></p></form></div></div>
+  <div class="sec"><h2>Katılan öğrenciler (${c.st.length})</h2><div class="box tw"><table><thead><tr><th>Öğrenci</th><th>E-posta</th><th>İlerleme</th></tr></thead><tbody>${c.st.slice(0,15).map(s=>`<tr><td>${esc(uname(s))}</td><td>${esc((db.users.find(x=>x.id===s)||{}).e)}</td><td><span class="tag">%${pct(s,c)}</span></td></tr>`).join('')}</tbody></table><p class="mut" style="font-size:13px">İlk 15 öğrenci gösteriliyor.</p></div></div></div>`},
+ mark(c,u,id){if(u.role!=='student'||!enr(c,u))return;const d=c.done[u.id]||(c.done[u.id]=[]);if(d.includes(id))return;d.push(id);save();const p=pct(u.id,c);document.querySelectorAll('.pf').forEach(e=>e.style.width=p+'%');document.querySelectorAll('.pt').forEach(e=>e.textContent='%'+p);document.querySelectorAll(`[data-st="${id}"]`).forEach(e=>e.innerHTML='<span class="tag ok">Tamamlandı</span>')},
+ async hydrate(){const u=me(),c=u&&ui.v==='course'&&crs(ui.c),it=c&&ui.item&&items(c).find(x=>x.id===ui.item);if(!it)return;const done=()=>Courses.mark(c,u,it.id),k=it.k;
+  if(k==='video'){const b=await fget(it.f[0]),v=$('#vid');if(b&&v){v.src=URL.createObjectURL(b);v.onended=done}}
+  else if(k==='slide'||k==='image'){for(const i of document.querySelectorAll('[data-fk]')){const b=await fget(i.dataset.fk);if(b)i.src=URL.createObjectURL(b)}if(k==='image'||it.f.length===1||ui.sl===it.f.length-1)done()}
+  else if(k==='pdf'){const b=await fget(it.f[0]);if(b){const s=URL.createObjectURL(b);$('#pdf').src=s;$('#pdfo').href=s}}
+  else if(k==='doc'||k==='text'){const d=$('#doc');if(k==='doc'){const b=await fget(it.f[0]);try{await lm();const r=await mammoth.convertToHtml({arrayBuffer:await b.arrayBuffer()});d.style.whiteSpace='normal';d.innerHTML=r.value.replace(/href="javascript:[^"]*"/gi,'')}catch(e){d.textContent='Belge açılamadı. Dosyanın .docx olduğundan emin ol.';return}}
+   const chk=()=>{if(d.scrollTop+d.clientHeight>=d.scrollHeight-8)done()};d.onscroll=chk;chk()}}};
+
+/* ===== Modül: Görevler ===== */
+const Tasks={
+ list(c,u,o){const sub=c.sub,td=today();return`<div class="sec"><h2>Görevler</h2><div class="box">${c.tasks.length?c.tasks.map(t=>{const d=(sub[t.id]||[]).includes(u.id);return`<div class="it" style="padding-left:0;padding-right:0"><div><b>${esc(t.t)}</b><div class="mut" style="font-size:13px">Son tarih: ${fd(t.due)}${o?' · Teslim eden: '+(sub[t.id]||[]).length:''}</div></div>${u.role==='student'?(d?`<span class="tag ok">Bitti</span><button class="btn out sm" data-a="tgl" data-id="${c.id}" data-i="${t.id}">Geri al</button>`:`<span class="tag ${t.due<td?'late':''}">${t.due<td?'Gecikti':'Devam ediyor'}</span><button class="btn sm" data-a="tgl" data-id="${c.id}" data-i="${t.id}">Bitirdim</button>`):''}${o?`<button class="btn del sm" data-a="deltask" data-id="${c.id}" data-i="${t.id}">Sil</button>`:''}</div>`}).join(''):'<p class="mut">Bu derste görev yok.</p>'}</div></div>`},
+ mine(u){const all=db.courses.filter(c=>enr(c,u)).flatMap(c=>c.tasks.map(t=>({c,t,d:(c.sub[t.id]||[]).includes(u.id)}))).sort((a,b)=>a.t.due.localeCompare(b.t.due)),td=today(),l=all.filter(x=>ui.tab==='done'?x.d:!x.d);
+  return`<div class="head"><h1>Görevlerim</h1></div><div class="chips"><button class="chip ${ui.tab==='open'?'on':''}" data-a="tab" data-id="open">Devam edenler (${all.filter(x=>!x.d).length})</button><button class="chip ${ui.tab==='done'?'on':''}" data-a="tab" data-id="done">Bitirdiklerim (${all.filter(x=>x.d).length})</button></div>
+  ${l.length?`<div class="box">${l.map(x=>`<div class="it" style="padding-left:0;padding-right:0"><div><b>${esc(x.t.t)}</b><div class="mut" style="font-size:13px">${esc(x.c.t)} · Son tarih: ${fd(x.t.due)}</div></div>${x.d?'<span class="tag ok">Bitti</span>':`<span class="tag ${x.t.due<td?'late':''}">${x.t.due<td?'Gecikti':'Devam ediyor'}</span>`}<button class="btn ${x.d?'out':''} sm" data-a="tgl" data-id="${x.c.id}" data-i="${x.t.id}">${x.d?'Geri al':'Bitirdim'}</button><button class="btn ghost sm" data-a="open" data-id="${x.c.id}">Dersi aç</button></div>`).join('')}</div>`:`<div class="empty">${ui.tab==='done'?'Henüz bitirdiğin görev yok.':'Devam eden görevin yok.'}</div>`}`},
+ pending:u=>db.courses.filter(c=>enr(c,u)).reduce((a,c)=>a+c.tasks.filter(t=>!(c.sub[t.id]||[]).includes(u.id)).length,0)};
+
+/* ===== Modül: Öğretmen ===== */
+const Teacher={form:u=>`<div class="box" style="margin-top:12px"><h2>Yeni ders oluştur</h2><form data-f="newcourse"><label for="ct">Ders adı</label><input id="ct" required><label for="cc">Kategori</label><select id="cc">${CATS.map(x=>`<option>${x}</option>`).join('')}</select><label for="cd">Açıklama</label><textarea id="cd"></textarea><p><button class="btn or">Dersi oluştur</button></p></form></div>`};
+
+/* ===== Modül: Yönetici ===== */
+const Admin={
+ users(){const q=ui.uq.toLowerCase(),l=db.users.filter(x=>!q||(x.n+x.e).toLowerCase().includes(q)),n=Math.max(1,Math.ceil(l.length/20)),pg=Math.min(ui.pg,n),u=me();
+  return`<div class="head"><h1>Kullanıcılar</h1><p class="mut">${db.users.length} kayıtlı kullanıcı. Rol değiştirerek öğretmen yetkisi ver veya al.</p></div><form data-f="usearch" style="display:flex;gap:8px;max-width:460px;margin:12px 0"><input id="uq" aria-label="Kullanıcı ara" placeholder="Ad veya e-posta ara" value="${esc(ui.uq)}"><button class="btn">Ara</button></form>
+  <div class="box tw"><table><thead><tr><th>Ad soyad</th><th>E-posta</th><th>Rol</th></tr></thead><tbody>${l.slice((pg-1)*20,pg*20).map(x=>`<tr><td>${esc(x.n)}</td><td>${esc(x.e)}</td><td>${x.id===u.id?`<span class="tag">${R[x.r]} (sen)</span>`:`<select aria-label="Rol" data-a="role" data-id="${x.id}">${Object.keys(R).map(r=>`<option value="${r}" ${x.r===r?'selected':''}>${R[r]}</option>`).join('')}</select>`}</td></tr>`).join('')}</tbody></table></div>
+  <div class="pg"><button class="btn out sm" data-a="pg" data-id="${pg-1}" ${pg>1?'':'disabled'}>Önceki</button><span class="mut">Sayfa ${pg} / ${n}</span><button class="btn out sm" data-a="pg" data-id="${pg+1}" ${pg<n?'':'disabled'}>Sonraki</button></div>`},
+ courses(){const T=db.users.filter(x=>x.r==='teacher');return`<div class="head"><h1>Ders yönetimi</h1></div>${Teacher.form()}<div class="box tw sec"><table><thead><tr><th>Ders</th><th>Öğretmen</th><th>Öğrenci</th><th></th></tr></thead><tbody>${db.courses.map(c=>`<tr><td>${esc(c.t)}</td><td><select aria-label="Öğretmen" data-a="ctid" data-id="${c.id}">${T.map(t=>`<option value="${t.id}" ${c.tid===t.id?'selected':''}>${esc(t.n)}</option>`).join('')}${T.some(t=>t.id===c.tid)?'':`<option selected value="${c.tid}">${esc(uname(c.tid))}</option>`}</select></td><td>${c.st.length}</td><td><button class="btn ghost sm" data-a="open" data-id="${c.id}">Aç</button> <button class="btn del sm" data-a="delcourse" data-id="${c.id}">Sil</button></td></tr>`).join('')}</tbody></table></div>`}};
+
+/* ===== Panel + kabuk (kenar çubuğu, üst çubuk) ===== */
+function home(u){const cs=db.courses,my=u.role==='student'?cs.filter(c=>enr(c,u)):u.role==='teacher'?cs.filter(c=>c.tid===u.id):cs.slice(0,6);
+ const stu=db.users.filter(x=>x.r==='student').length,st=u.role==='admin'?[[stu,'Öğrenci'],[db.users.filter(x=>x.r==='teacher').length,'Öğretmen'],[cs.length,'Ders'],[cs.reduce((a,c)=>a+c.st.length,0),'Toplam kayıt']]:u.role==='teacher'?[[my.length,'Dersim'],[my.reduce((a,c)=>a+c.st.length,0),'Toplam öğrenci'],[my.reduce((a,c)=>a+items(c).length,0),'İçerik']]:[[my.length,'Katıldığım ders'],[Tasks.pending(u),'Devam eden görev'],[my.length?Math.round(my.reduce((a,c)=>a+pct(u.id,c),0)/my.length):0,'Ortalama ilerleme %']];
+ return`<div class="hero"><h1>Merhaba, ${esc(u.n.split(' ')[0])}</h1><p>${R[u.role]} paneli. ${u.role==='student'?'Kaldığın yerden devam et.':u.role==='teacher'?'Derslerini haftalara böl ve içerik ekle.':'Kullanıcıları ve dersleri buradan yönet.'}</p></div>
+ <div class="grid">${st.map(s=>`<div class="box"><div class="stat">${s[0]}</div><div class="mut">${s[1]}</div></div>`).join('')}</div>
+ <div class="sec"><h2>${u.role==='admin'?'Dersler':'Derslerim'}</h2>${my.length?`<div class="grid">${my.slice(0,6).map(c=>Courses.card(c,u)).join('')}</div>`:'<div class="empty">'+(u.role==='student'?'Henüz derse katılmadın. Ders kataloğundan başlayabilirsin.':'Henüz ders yok.')+'</div>'}</div>`}
+const navs=u=>{const t=Tasks.pending(u);return[['Genel',[['home','⌂','Panel']]],...(u.role==='student'?[['Öğrenim',[['mine','▤','Derslerim'],['tasks','✓','Görevlerim',t||''],['catalog','☰','Ders kataloğu']]]]:u.role==='teacher'?[['Öğretim',[['mine','▤','Verdiğim dersler'],['catalog','☰','Ders kataloğu']]]]:[['Yönetim',[['users','☺','Kullanıcılar'],['acourses','▦','Ders yönetimi'],['catalog','☰','Ders kataloğu']]]])]};
+function shell(u){const v=ui.v;let b=v==='course'?Courses.detail(u):v==='catalog'?Courses.catalog(u):v==='mine'?Courses.mine(u):v==='tasks'&&u.role==='student'?Tasks.mine(u):v==='users'&&u.role==='admin'?Admin.users():v==='acourses'&&u.role==='admin'?Admin.courses():home(u);
+ return`<div class="app ${ui.side?'':'min'} ${ui.mob?'mob':''}"><aside class="side"><div class="logo"><i>S</i><span>SYS LMS</span></div>${navs(u).map(g=>`<div class="grp">${g[0]}</div>${g[1].map(n=>`<button class="nav ${ui.v===n[0]?'on':''}" title="${n[2]}" data-a="go" data-id="${n[0]}"><b>${n[1]}</b><span>${n[2]}</span>${n[3]?`<em>${n[3]}</em>`:''}</button>`).join('')}`).join('')}
+ <div class="who"><div class="av">${esc(ini(u.n))}</div><div><b>${esc(u.n)}</b>${R[u.role]}<br><button class="nav" style="padding:4px 0;border:0" data-a="logout"><span style="display:inline">Çıkış yap</span></button></div></div></aside><div class="scrim" data-a="mob"></div>
+ <div class="wrap"><header class="top"><button class="ib" data-a="side" aria-label="Menüyü daralt veya aç">☰</button><form data-f="gsearch"><input id="gq" type="search" aria-label="Ders ara" placeholder="Ders, kategori veya öğretmen ara" value="${esc(ui.q)}"></form><button class="ib" data-a="theme" aria-label="Tema değiştir">◐</button></header><main class="main">${b}</main></div></div>`}
+function render(){$('#app').innerHTML=me()?shell(me()):Auth.view();Courses.hydrate()}
+
+/* ===== Eylemler ===== */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t||t.tagName==='SELECT')return;if(t.dataset.a==='lnk'){const c=crs(t.dataset.id);c&&Courses.mark(c,me(),t.dataset.i);return}act(t)});
+document.addEventListener('change',e=>{const t=e.target.closest('select[data-a]');if(t)act(t)});
+function act(t){const a=t.dataset.a,id=t.dataset.id,u=me(),c=id&&crs(id),o=c&&u&&own(c,u),ad=u&&u.role==='admin';
+ if(a==='mode'){ui.mode=id;ui.err=''}
+ else if(a==='demo')db.session=db.users.find(x=>x.e===t.dataset.e&&x.p===t.dataset.p)?.id,ui.v='home';
+ else if(a==='go'){ui.v=id;ui.item=null;ui.pg=1;ui.mob=false;if(id==='catalog'){ui.q='';ui.cat=''}}
+ else if(a==='logout'){db.session=null;ui.v='home';ui.item=null}
+ else if(a==='open'){ui.v='course';ui.c=id;ui.item=null}
+ else if(a==='join'&&c&&u.role==='student'&&!enr(c,u))c.st.push(u.id);
+ else if(a==='leave'&&c)c.st=c.st.filter(s=>s!==u.id);
+ else if(a==='delcourse'&&ad&&confirm('Bu ders silinsin mi?'))db.courses=db.courses.filter(x=>x.id!==id);
+ else if(a==='delweek'&&o&&confirm('Hafta ve içerikleri silinsin mi?'))c.weeks=c.weeks.filter(w=>w.id!==t.dataset.w);
+ else if(a==='delitem'&&o)c.weeks.forEach(w=>w.items=w.items.filter(x=>x.id!==t.dataset.i));
+ else if(a==='deltask'&&o)c.tasks=c.tasks.filter(x=>x.id!==t.dataset.i);
+ else if(a==='item'&&c){const same=ui.item===t.dataset.i;ui.item=same?null:t.dataset.i;ui.sl=0}
+ else if(a==='sl'){const c2=crs(ui.c),it=items(c2).find(x=>x.id===ui.item);ui.sl=Math.max(0,Math.min(it.f.length-1,ui.sl+ +t.dataset.d))}
+ else if(a==='tgl'&&c&&u.role==='student'&&enr(c,u)){const s=c.sub[t.dataset.i]||(c.sub[t.dataset.i]=[]),i=s.indexOf(u.id);i<0?s.push(u.id):s.splice(i,1)}
+ else if(a==='cat'){ui.cat=id}
+ else if(a==='tab'){ui.tab=id}
+ else if(a==='pg'){ui.pg=+id}
+ else if(a==='side'){innerWidth<=860?ui.mob=!ui.mob:ui.side=!ui.side}
+ else if(a==='mob'){ui.mob=false}
+ else if(a==='theme'){const d=document.documentElement,dark=getComputedStyle(d).getPropertyValue('--bg').trim()==='#0c151c';d.dataset.theme=dark?'light':'dark'}
+ else if(a==='role'&&ad&&id!==u.id){db.users.find(x=>x.id===id).r=t.value}
+ else if(a==='ctid'&&ad&&c){c.tid=t.value}
+ save();render()}
+document.addEventListener('submit',async e=>{e.preventDefault();const F=e.target.dataset.f,u=me(),g=i=>document.getElementById(i),v=i=>(g(i)?.value||'').trim(),c=crs(e.target.dataset.id),o=c&&u&&own(c,u);
+ if(F==='login')Auth.login(v,g('p').value);else if(F==='register')Auth.register(v,g('p').value);
+ else if(F==='gsearch'){ui.q=v('gq');ui.cat='';ui.v='catalog';ui.item=null}
+ else if(F==='usearch'){ui.uq=v('uq');ui.pg=1}
+ else if(F==='newcourse'&&u.role!=='student')db.courses.push({id:uid(),n:db.courses.length,t:v('ct'),cat:v('cc'),d:v('cd')||'Açıklama eklenmedi.',tid:u.id,st:[],done:{},sub:{},weeks:[],tasks:[]});
+ else if(F==='newweek'&&o)c.weeks.push({id:uid(),t:v('wt'),date:v('wd'),items:[]});
+ else if(F==='newtask'&&o)c.tasks.push({id:uid(),t:v('tt'),due:v('td')});
+ else if(F==='newitem'&&o){const k=v('ik'),fs=[...g('if').files],err=m=>{g('ie').textContent=m},w=c.weeks.find(x=>x.id===v('iw')),ok={video:f=>f.type.startsWith('video/'),slide:f=>f.type.startsWith('image/'),image:f=>f.type.startsWith('image/'),doc:f=>/\.docx$/i.test(f.name),pdf:f=>f.type==='application/pdf'};
+  let url=v('iu');if(k==='link'){if(!/^https?:\/\//i.test(url))url='https://'+url;try{new URL(url)}catch(x){return err('Geçerli bir adres gir.')}}
+  else if(k==='text'){if(!url)return err('Metin yaz.')}
+  else{if(!fs.length)return err('Bu tür için dosya seç.');if(!fs.every(ok[k]))return err('Dosya, seçilen türle uyuşmuyor (Word için .docx kullan).')}
+  const keys=[];try{for(const f of(k==='link'||k==='text'?[]:k==='slide'?fs:[fs[0]])){const key='f'+uid();await fput(key,f);keys.push(key)}}catch(x){return err('Dosya kaydedilemedi; tarayıcı depolaması dolu olabilir.')}
+  w.items.push({id:uid(),k,t:v('it'),u:k==='link'||k==='text'?url:'',f:keys})}
+ save();render()});
+render();
+</script>
+</body>
+</html>
